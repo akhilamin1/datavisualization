@@ -1,0 +1,9 @@
+install.packages("praise")
+library(praise)
+praise()
+praise()
+praise()
+?praise
+install.packages("rmarkdown")
+rmarkdown()
+
