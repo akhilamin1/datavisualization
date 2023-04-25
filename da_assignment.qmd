@@ -1,0 +1,31 @@
+---
+title: "Unicef Data Viz"
+format: html
+editor: visual
+---
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library("ggplot2")
+unicef_metadata <- read.csv("./unicef_metadata.csv")
+
+ggplot(unicef_metadata, aes(y=life_expectancy, x=year)) +
+  geom_point()
+
+```
+
+```{r}
+
+unicef_indicator <- read.csv("./unicef_indicator.csv")
+
+data = unicef_indicator[unicef_indicator$time_period > 2003 & unicef_indicator$time_period < 2012, ]
+
+ggplot(data, aes(x=time_period, y=obs_value)) +
+  geom_bar(position = "dodge",
+           stat = "summary",
+           fun = "mean")
+
+```
