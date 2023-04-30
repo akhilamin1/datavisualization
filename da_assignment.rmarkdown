@@ -10,13 +10,48 @@ editor: visual
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 
-
-
+## World Map
 
 
 ```{r}
-# install.packages(c("ggplot2","dplyr","rnaturalearth","plotly"))
+
+unicef_indicator <- read.csv("./unicef_indicator.csv")
+
+# Load required libraries
 library(rnaturalearth)
+
+library(plotly)
+library(dplyr)
+
+# Load viridis package for additional color palettes
+# install.packages("viridis")
+library(viridis)
+
+# Get a spatial dataset of country boundaries
+world_map <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Assign the main dataset to a new variable with a simpler name
+main_data <- unicef_indicator
+library(rnaturalearth)
+
+# Merge the main dataset (main_data) with the world_map dataset
+merged_data <- world_map %>%
+  left_join(main_data, by = c("name" = "country"))
+
+# Create a ggplot object with merged_data
+world_map_plot <- ggplot(data = merged_data) +
+  geom_sf(aes(fill = obs_value, text = paste("Obs_value:", obs_value, "<br>Country:", name)), size = 0.1) +
+  theme_minimal() +
+  scale_fill_viridis_c(option = "A", direction = -1, trans = "log", 
+                       name = "Observation\nValue", labels = scales::comma, end = 0.9) +
+  labs()
+
+world_map_plot
+# Convert to interactive plotly object
+# interactive_world_map <- ggplotly(world_map_plot)
+
+# Include the interactive plot in R Markdown document
+# interactive_world_map
 ```
 
 
@@ -26,7 +61,7 @@ library(rnaturalearth)
 
 ```{r}
 library(ggplot2)
-unicef_indicator <- read.csv("./unicef_indicator.csv")
+
 
 data = unicef_indicator[unicef_indicator$time_period > 2003 & unicef_indicator$time_period < 2012, ]
 
@@ -60,46 +95,6 @@ ggplot(unicef_indicator,aes(x=as.numeric(time_period),y=as.numeric(obs_value))) 
 ```
 
 
-## World Map
-
-
-```{r}
-# Load required libraries
-library(rnaturalearth)
-
-library(plotly)
-library(dplyr)
-
-# Load viridis package for additional color palettes
-# install.packages("viridis")
-library(viridis)
-
-# Get a spatial dataset of country boundaries
-world_map <- ne_countries(scale = "medium", returnclass = "sf")
-
-# Assign the main dataset to a new variable with a simpler name
-main_data <- `unicef_indicator`
-library(rnaturalearth)
-
-# Merge the main dataset (main_data) with the world_map dataset
-merged_data <- world_map %>%
-  left_join(main_data, by = c("name" = "country"))
-
-# Create a ggplot object with merged_data
-world_map_plot <- ggplot(data = merged_data) +
-  geom_sf(aes(fill = obs_value, text = paste("Obs_value:", obs_value, "<br>Country:", name)), size = 0.1) +
-  theme_minimal() +
-  scale_fill_viridis_c(option = "A", direction = -1, trans = "log", 
-                       name = "Observation\nValue", labels = scales::comma, end = 0.9) +
-  labs()
-
-
-# Convert to interactive plotly object
-interactive_world_map <- ggplotly(world_map_plot)
-
-# Include the interactive plot in R Markdown document
-interactive_world_map
-```
 
 
 ## Time series Chart
@@ -114,8 +109,8 @@ data3 <- unicef_indicator %>%
   summarize(mean=mean(obs_value))
 
 # Most basic bubble plot
-ggplot(unicef_indicator, aes(x=time_period, y=obs_value, group = country, colour = country)) +
-  geom_line()
+#ggplot(unicef_indicator, aes(x=time_period, y=obs_value, group = country, colour = country)) +
+ # geom_line()
 
 ```
 
