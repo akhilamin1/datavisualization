@@ -2,17 +2,13 @@
 title: "Unicef Data Viz"
 format: html
 editor: visual
-execute:
-  echo: false
-  warning: false
-  message: false
 ---
 
 
 ## The world map represents countries present in the provided data. The colour shifts darker for countries with more knowledge on testing locations.
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 unicef_indicator <- read.csv("./unicef_indicator.csv")
 
@@ -47,11 +43,10 @@ ggplot(data = merged_data) +
 ```
 
 
-
 ## The Bar Chart represents the increase in awareness among men and women for the meantioned period wherein there is a clear growith in awareness regaring the testing centres.
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(ggplot2)
 
 
@@ -68,7 +63,7 @@ ggplot(data, aes(x=time_period, y=obs_value, fill = sex)) +
 ## Scatter Plot: The scatter plot depicts the pattern of changes in awareness for all the countries provided in the data set and depcts changes over the years. There was a rise till 2011 and a dip duriung and after 2012. The possible reason could be the reduction in positive HIV cases and necessary sex education promoted.
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(dplyr)
 
@@ -81,12 +76,10 @@ ggplot(unicef_indicator,aes(x=as.numeric(time_period),y=as.numeric(obs_value))) 
 ```
 
 
-
-
 ## The time series chart provided shows the difference in observation values over the years for the list of countries for which the data has been provided.
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(dplyr)
 

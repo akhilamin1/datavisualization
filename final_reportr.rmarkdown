@@ -90,9 +90,8 @@ ggplot(unicef_indicator,aes(x=as.numeric(time_period),y=as.numeric(obs_value))) 
 library(ggplot2)
 library(dplyr)
 
-df_no_na_rows <- unicef_indicator[complete.cases(unicef_indicator), ]
 
-ggplot(df_no_na_rows, aes(x=as.numeric(time_period), y=as.numeric(obs_value), group = country, colour = country)) +
+ggplot(unicef_indicator, aes(x=as.numeric(time_period), y=as.numeric(obs_value), group = country, colour = country)) +
   geom_line()
 
 

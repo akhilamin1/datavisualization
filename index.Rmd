@@ -2,12 +2,11 @@
 title: "Unicef Data Viz"
 format: html
 editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 
 ## The world map represents countries present in the provided data. The colour shifts darker for countries with more knowledge on testing locations.
 
@@ -83,8 +82,9 @@ ggplot(unicef_indicator,aes(x=as.numeric(time_period),y=as.numeric(obs_value))) 
 library(ggplot2)
 library(dplyr)
 
+df_no_na_rows <- unicef_indicator[complete.cases(unicef_indicator), ]
 
-ggplot(unicef_indicator, aes(x=as.numeric(time_period), y=as.numeric(obs_value), group = country, colour = country)) +
+ggplot(df_no_na_rows, aes(x=as.numeric(time_period), y=as.numeric(obs_value), group = country, colour = country)) +
   geom_line()
 
 
